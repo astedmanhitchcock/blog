@@ -1,8 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;600&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Merriweather&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;600;900&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body, html, #app {
+  height: 100%;
+}
+  
+img, video {
+  max-width: 100% !important;
+  height: auto !important;
+}
 
 @layer base {
   body {
@@ -14,15 +23,21 @@
   }
 
   p {
-    @apply font-serif text-base;
+    @apply font-serif font-light text-base;
 
     & + p {
       @apply mt-6
     }
   }
+
+  .container {
+    @apply mx-auto
+  }
 }
 
-img, video {
-  max-width: 100% !important;
-  height: auto !important;
+
+.blog-img {
+  float: left;
+  width: 33.333%;
+  margin-right: 18px;
 }

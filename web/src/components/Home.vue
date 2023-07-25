@@ -1,5 +1,5 @@
 <template>
-  <h2>recent posts</h2>
+  <h2 class="text-3xl">recent posts</h2>
   <PostList v-if="posts" :posts="posts" />
 </template>
 

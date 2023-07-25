@@ -1,10 +1,10 @@
 <template>
-  <nav class="p-4 flex justify-between">
+  <nav class="container p-4 flex justify-between">
     <div>
       <router-link
         :to="'/'"
       >
-        <h1 class="font-serif">aaronhitchcock</h1>
+        <h1 class="font-serif font-normal text-jet hover:text-cerulean">aaronhitchcock</h1>
       </router-link>
     </div>
     <div>
@@ -19,16 +19,26 @@
       >
         {{ link.label }}
       </router-link>
+      <MobileToggle class="lg:hidden" />
     </div>
   </nav>
 </template>
 
 <script>
+import MobileToggle from '@/components/BaseNavMobileToggle.vue'
+
 export default {
   name: 'BaseNav',
+  components: {
+    MobileToggle
+  },
   data() {
     return {
       links: [
+      {
+          'label': 'cv',
+          'path': '/cv'
+        },
         {
           'label': 'styleguide',
           'path': '/styleguide'

@@ -1,44 +1,42 @@
 <template>
-    <div>
-      <ol class="post-list">
-        <li :class="`py-3${idx > 0 ? ' border-t': ''}`" v-for="post, idx in publishedPosts" :key="post.title">
-            <span class="post__title">
-              <router-link
-                :to="`/post/${post.slug}`"
-              >
-                <h2>
-                  {{ post.title }}{{ post.subtitle &&  `:  ${post.subtitle}` }}
-                </h2>
-              </router-link>
-            </span>
-            <span v-if="showAuthor" class="block">
-              by <AuthorLink :author="post.author" />
-            </span>
-            <div class="font-mono">
-              {{ displayableDate(post.publishDate) }}
-            </div>
-          <p>
-            {{ post.metaDescription }}
-          </p>
-          <ul class="mt-3">
-            <li v-for="tag in post.tags" :key="tag.name">
-              <PostTag :tag="tag" />
-            </li>
-          </ul>
-        </li>
-      </ol>
-    </div>
+  <ol>
+    <li
+      v-for="post, idx in publishedPosts"
+      :key="post.title"
+      class="py-3"
+      :class="{['border-t']: idx > 0}"
+    >
+      <router-link
+        :to="`/post/${post.slug}`"
+        class="hover:underline"
+      >
+        <h2 class="font-medium">
+          {{ post.title }}{{ post.subtitle &&  `:  ${post.subtitle}` }}
+        </h2>
+      </router-link>
+      <span v-if="showAuthor" class="block">
+        by <AuthorLink :author="post.author" />
+      </span>
+      <span class="font-mono">
+        {{ displayableDate(post.publishDate) }}
+      </span>
+      <p v-if="post.metaDescription">
+        {{ post.metaDescription }}
+      </p>
+      <TagArray :tags="post.tags" />
+    </li>
+  </ol>
 </template>
 
 <script>
 import AuthorLink from '@/components/AuthorLink'
-import PostTag from '@/components/PostTag.vue'
+import TagArray from '@/components/TagArray.vue'
 
 export default {
   name: 'PostList',
   components: {
     AuthorLink,
-    PostTag
+    TagArray
   },
   props: {
     posts: {

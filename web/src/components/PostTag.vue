@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="`/tag/${tag.name}`">
+  <router-link :to="`/tag/${tag.name}`" class="inline-block my-1">
     #{{ tag.name }}
   </router-link>
 </template>

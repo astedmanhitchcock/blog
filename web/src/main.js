@@ -11,7 +11,8 @@ const cache = new InMemoryCache()
 
 const apolloClient = new ApolloClient({
   cache,
-  uri: 'http://localhost:8000/graphql',
+  uri: 'https://api-dot-clubaaron.ue.r.appspot.com/graphql',
+  // uri: 'http://localhost:8000/graphql',
 })
 
 const apolloProvider = createApolloProvider({

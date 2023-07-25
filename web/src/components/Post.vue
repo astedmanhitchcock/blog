@@ -1,27 +1,36 @@
 <template>
   <div class="post" v-if="post">
-      <h2>{{ post.title }}: {{ post.subtitle }}</h2>
-      By <AuthorLink :author="post.author" />
-      <div>{{ displayableDate(post.publishDate) }}</div>
-    <p class="post__description">{{ post.metaDescription }}</p>
+    <div class="mb-6">
+      <h2 class="font-medium">
+        {{ post.title }}{{ post.subtitle &&  `:  ${post.subtitle}` }}
+      </h2>
+      <span class="block">
+        by <AuthorLink :author="post.author" />
+      </span>
+      <span class="font-mono">
+        {{ displayableDate(post.publishDate) }}
+      </span>
+      <p v-if="post.metaDescription">
+        {{ post.metaDescription }}
+      </p>
+    </div>
     <article v-html="post.body">
     </article>
-    <ul>
-      <li class="post__tags" v-for="tag in post.tags" :key="tag.name">
-        <router-link :to="`/tag/${tag.name}`">#{{ tag.name }}</router-link>
-      </li>
-    </ul>
+    <span class="clear-both block"></span>
+    <TagArray :tags="post.tags" />
   </div>
 </template>
 
 <script>
 import gql from 'graphql-tag'
 import AuthorLink from '@/components/AuthorLink'
+import TagArray from '@/components/TagArray.vue'
 
 export default {
   name: 'PostDetail',
   components: {
     AuthorLink,
+    TagArray
   },
   data () {
     return {

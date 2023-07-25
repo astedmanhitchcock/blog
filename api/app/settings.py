@@ -9,25 +9,53 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
+import io
+from google.cloud import secretmanager
 import os
+import environ
 from pathlib import Path
+from urllib.parse import urlparse
 from google.oauth2 import service_account
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+env = environ.Env(DEBUG=(bool, False))
+env_file = os.path.join(BASE_DIR, '.env')
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
+if os.path.isfile(env_file):
+    # read a local .env file
+    env.read_env(env_file)
+elif os.environ.get('GOOGLE_CLOUD_PROJECT', None):
+    # pull .env file from Secret Manager
+    project_id = os.environ.get('GOOGLE_CLOUD_PROJECT')
+
+    client = secretmanager.SecretManagerServiceClient()
+    settings_name = os.environ.get('SETTINGS_NAME', 'django_settings')
+    name = f'projects/{project_id}/secrets/{settings_name}/versions/latest'
+    payload = client.access_secret_version(name=name).payload.data.decode('UTF-8')
+
+    env.read_env(io.StringIO(payload))
+else:
+    raise Exception('No local .env or GOOGLE_CLOUD_PROJECT detected. No secrets found.')
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-rcilb%8w#mmrc4am=19!a7hkj7%g^$6r(rir5)**m!%o!xf5gn'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = []
+APPENGINE_URL = env('APPENGINE_URL', default=None)
+if APPENGINE_URL:
+    # ensure a scheme is present in the URL before it's processed.
+    if not urlparse(APPENGINE_URL).scheme:
+        APPENGINE_URL = f'https://{APPENGINE_URL}'
 
+    ALLOWED_HOSTS = [urlparse(APPENGINE_URL).netloc]
+    CSRF_TRUSTED_ORIGINS = [APPENGINE_URL]
+    SECURE_SSL_REDIRECT = True
+else:
+    ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -45,7 +73,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    "corsheaders.middleware.CorsMiddleware",
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -75,21 +103,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'app.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'clubaaron_dev', 
-        'USER': 'aaronhitchcock', 
-        'PASSWORD': '',
-        'HOST': '127.0.0.1', 
-        'PORT': '5432',
-    }
-}
-
+# https://testdriven.io/blog/django-gae/#database
+DATABASES = {'default': env.db()}
 
 
 # Password validation
@@ -127,6 +144,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT=os.path.join(BASE_DIR, 'static')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -138,7 +156,14 @@ GRAPHENE = {
 }
 
 CORS_ORIGIN_ALLOW_ALL = False
-CORS_ORIGIN_WHITELIST = ("http://localhost:8080",)
+
+CORS_ALLOWED_ORIGINS = [
+  "http://localhost:8080",
+  "https://clubaaron.com",
+  "https://www.clubaaron.com",
+  "https://clubaaron.ue.r.appspot.com",
+  "https://blog-dot-clubaaron.ue.r.appspot.com"
+]
 
 GS_CREDENTIALS = service_account.Credentials.from_service_account_file(os.path.join(BASE_DIR,'clubaaron-gs-credentials.json'))
 

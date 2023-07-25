@@ -8,5 +8,8 @@ node_modules/
 .pg_service.conf
 .my_pgpass
 clubaaron-gs-credentials.json
+.env
+*/static/*
+cloud-sql-proxy
 
 app.yaml
