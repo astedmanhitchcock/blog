@@ -1,7 +1,7 @@
 <template>
   <div class="post" v-if="post">
     <div class="mb-6">
-      <h2 class="font-medium">
+      <h2 class="base-page-title">
         {{ post.title }}{{ post.subtitle &&  `:  ${post.subtitle}` }}
       </h2>
       <span class="block">

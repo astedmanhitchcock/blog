@@ -9,7 +9,7 @@
           v-for="(link, index) in links"
           :key="link.path"
           :to="link.path"
-          class="relative text-rose-quartz / py-3 px-2 md:py-1"
+          class="relative text-rose-quartz / py-3 md:px-2 md:py-1"
           :class="{
             'border-t md:border-l md:border-t-0': index > 0
           }"
@@ -65,8 +65,8 @@ export default {
   z-index: 1;
 
   &__menu {
-    @apply absolute w-full left-0 top-full flex flex-col bg-white 
-      md:relative md:w-auto md:left-auto md:top-auto md:flex-row md:bg-transparent;
+    @apply absolute w-full left-0 top-full flex flex-col bg-white px-4 
+      md:relative md:w-auto md:left-auto md:top-auto md:flex-row md:bg-transparent md:px-4;
     transform: translateY(-100%);
     opacity: 0;
     z-index: -1;
@@ -93,6 +93,7 @@ export default {
     @media (min-width: 768px) {
       transform: translateY(0);
       opacity: 1;
+      z-index: 0;
 
       &:after,
       &:before {

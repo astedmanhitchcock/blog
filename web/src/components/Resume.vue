@@ -1,5 +1,5 @@
 <template>
-  <h2>resume</h2>
+  <h2 class="base-page-title">resume</h2>
 </template>
 
 <script>
