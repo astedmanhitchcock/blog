@@ -162,6 +162,7 @@ CORS_ALLOWED_ORIGINS = [
   "https://clubaaron.com",
   "https://www.clubaaron.com",
   "https://clubaaron.ue.r.appspot.com",
+  "https://aaronhitchcock.com",
   "https://blog-dot-clubaaron.ue.r.appspot.com"
 ]
 

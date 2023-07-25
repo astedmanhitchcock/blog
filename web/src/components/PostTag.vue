@@ -23,6 +23,6 @@ a {
 }
 
 a:hover {
-  @apply bg-rose-quartz text-base-bg;
+  @apply bg-rose-quartz text-base-bg no-underline;
 }
 </style>

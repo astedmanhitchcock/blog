@@ -4,7 +4,11 @@
 @tailwind components;
 @tailwind utilities;
 
-body, html, #app {
+body {
+  height: auto;
+}
+
+html, #app {
   height: 100%;
 }
   
@@ -23,21 +27,44 @@ img, video {
   }
 
   p {
-    @apply font-serif font-light text-base;
+    @apply font-serif font-light text-base tracking-wide leading-7;
 
     & + p {
       @apply mt-6
     }
   }
 
+  a {
+    @apply text-rose-quartz underline underline-offset-2 decoration-1 decoration-transparent hover:text-cerulean hover:decoration-current;
+    transition: all 0.35s ease;
+  }
+
   .container {
-    @apply mx-auto
+    @apply mx-auto 
+  }
+}
+
+.container {
+
+  @media (min-width: 1280px) {
+    max-width: 1024px !important;
   }
 }
 
 
 .blog-img {
-  float: left;
-  width: 33.333%;
-  margin-right: 18px;
+  @apply my-5 md:mt-0;
+
+  &--left,
+  &--right {
+    @apply md:w-1/2 lg:w-1/3
+  }
+
+  &--left {
+    @apply md:float-left md:mr-5;
+  }
+
+  &--right {
+    @apply md:float-right md:ml-5
+  }
 }

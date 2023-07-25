@@ -1,26 +1,24 @@
 <template>
-  <div class="flex flex-col h-full">
-    <header>
+  <div class="flex flex-col h-full min-h-screen">
+    <header class="sticky top-0 bg-base-bg">
       <BaseNav />
     </header>
     <div class="container p-4">
       <router-view />
     </div>
-    <footer class="mt-auto">
-      <div class="container p-4">
-        <h4 class="font-light">© <span class="font-serif font-normal">aaronhitchcock 2023</span></h4>
-      </div>
-    </footer>
+    <BaseFooter />
   </div>
 </template>
 
 <script>
 import BaseNav from '@/components/BaseNav.vue'
+import BaseFooter from './components/BaseFooter.vue';
 
 export default {
   name: 'App',
   components: {
-    BaseNav
+    BaseNav,
+    BaseFooter
   }
 }
 </script>
