@@ -21,6 +21,10 @@ class TagType(DjangoObjectType):
     class Meta:
         model = models.Tag
 
+class JobType(DjangoObjectType):
+    class Meta:
+        model = models.Job
+
 
 class Query(graphene.ObjectType):
     all_posts = graphene.List(PostType)
@@ -28,12 +32,18 @@ class Query(graphene.ObjectType):
     post_by_slug = graphene.Field(PostType, slug=graphene.String())
     posts_by_author = graphene.List(PostType, username=graphene.String())
     posts_by_tag = graphene.List(PostType, tag=graphene.String())
+    all_jobs = graphene.List(JobType)
 
     def resolve_all_posts(root, info):
         return (
             models.Post.objects.prefetch_related("tags")
             .select_related("author")
             .all()
+        )
+    
+    def resolve_all_jobs(root, info):
+        return (
+            models.Job.objects.all()
         )
 
     def resolve_author_by_username(root, info, username):

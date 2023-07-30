@@ -13,6 +13,7 @@
     "core-js": "^3.8.3",
     "graphql": "^16.7.1",
     "graphql-tag": "^2.12.6",
+    "lodash": "^4.17.21",
     "vue": "^3.2.13",
     "vue-router": "^4.2.4"
   },
@@ -49,6 +50,8 @@
     "last 2 versions",
     "not dead",
     "not ie 11"
-  ]
-
+  ],
+  "browser": {
+    "child_process": false
+  }
 }

@@ -3,7 +3,7 @@ from django.shortcuts import resolve_url
 from django.contrib.admin.templatetags.admin_urls import admin_urlname
 from django.utils.html import format_html
 
-from blog.models import Profile, Post, Tag, Image
+from blog.models import Profile, Post, Tag, Image, Job
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
@@ -17,15 +17,28 @@ class TagAdmin(admin.ModelAdmin):
 class ImageAdmin(admin.ModelAdmin):
     model = Image
 
+@admin.register(Job)
+class JobAdmin(admin.ModelAdmin):
+    model = Job
+    def company_and_title(self, item):
+        url = resolve_url(admin_urlname(Job._meta, 'change'), item.id)
+        return format_html(
+            '<a href="{url}">{title} @ {company}</a>'.format(url=url, title=str(item.title), company=str(item.company))
+        )
+
+    list_display = (
+        'id',
+        'company_and_title'
+    )
+
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
     model = Post
     def title_link(self, item):
-
-        url = resolve_url(admin_urlname(Post._meta, 'change'), item.id)
-        return format_html(
-            '<a href="{url}">{name}</a>'.format(url=url, name=str(item.title))
-        )
+      url = resolve_url(admin_urlname(Post._meta, 'change'), item.id)
+      return format_html(
+          '<a href="{url}">{name}</a>'.format(url=url, name=str(item.title))
+      )
 
     list_display = (
         "id",

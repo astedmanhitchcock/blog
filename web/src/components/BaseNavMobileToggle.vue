@@ -12,22 +12,40 @@
 </template>
 
 <script>
+import { store } from '@/store.js';
+
 export default {
   name: 'MobileToggle',
-  data() {
-    return {
-      isOpen: false
-    }
-  },  
+  props: {
+    menuRef: Object
+  },
   computed: {
     buttonText() {
       return this.isOpen ? 'close' : 'open'
+    },
+    isOpen() {
+      return store.isMobileNavOpen
     }
+  },
+  beforeUnmount () {
+    document.removeEventListener('click', this.clickAway)
   },  
   methods: {
+    clickAway(e) {
+      if (!this.$el.contains(e.target) && !this.menuRef.contains(e.target)) {
+        store.isMobileNavOpen = false
+      }
+    },
     handleClick() {
-      this.isOpen = !this.isOpen
-      this.$emit('change', this.isOpen)
+      store.isMobileNavOpen = !store.isMobileNavOpen;
+      if (store.isMobileNavOpen) {
+        document.addEventListener('click', this.clickAway)
+      }
+    }
+  },
+  watch: {
+    $route() {
+      store.isMobileNavOpen = false;
     }
   }
 }

@@ -103,11 +103,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'app.wsgi.application'
 
+
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 # https://testdriven.io/blog/django-gae/#database
-DATABASES = {'default': env.db()}
 
+DATABASES = {'default': env.db()}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -162,7 +163,7 @@ CORS_ALLOWED_ORIGINS = [
   "https://clubaaron.com",
   "https://www.clubaaron.com",
   "https://clubaaron.ue.r.appspot.com",
-  "https://aaronhitchcock.com",
+  "aaronhitchcock.com",
   "https://blog-dot-clubaaron.ue.r.appspot.com"
 ]
 
