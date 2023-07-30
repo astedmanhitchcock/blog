@@ -4,4 +4,4 @@
 
 ## start cloud sql proxy
 - in a new tab run:
-- `./cloud-sql-proxy clubaaron:us-east1:budgie-clubaaron`
+- `./cloud-sql-proxy [CONNECTION_NAME]`
