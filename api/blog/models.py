@@ -52,6 +52,7 @@ class Image(models.Model):
   def __str__(self):
     return self.title
     
+
 class Job(models.Model):
   class Meta:
     ordering = ["-date_start"]
@@ -60,6 +61,7 @@ class Job(models.Model):
   title = models.CharField(max_length=255)
   date_start = models.DateField()
   date_depart = models.DateField(blank=True)
+  notes = RichTextField(blank=True)
 
   def __str__(self):
     return self.title

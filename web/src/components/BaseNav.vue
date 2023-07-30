@@ -29,6 +29,13 @@ import { store } from '@/store.js';
 import LogoLink from '@/components/LogoLink.vue';
 import MobileToggle from '@/components/BaseNavMobileToggle.vue'
 
+const DEV_LINKS = [
+  {
+    'label': 'styleguide',
+    'path': '/styleguide'
+  }
+]
+
 export default {
   name: 'BaseNav',
   components: {
@@ -38,16 +45,21 @@ export default {
   data() {
     return {
       links: [
-      {
-          'label': 'cv',
-          'path': '/cv'
+        {
+          'label': 'blog',
+          'path': '/'
         },
         {
-          'label': 'styleguide',
-          'path': '/styleguide'
+          'label': 'cv',
+          'path': '/cv'
         }
       ]
     }
+  },
+  mounted() {
+    if (process.env.NODE_ENV === 'development') {
+      this.links.push(...DEV_LINKS)
+    } 
   },
   computed: {
     isMobileNavOpen() {
