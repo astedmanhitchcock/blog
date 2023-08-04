@@ -18,7 +18,7 @@
         Proficiencies:
       </h3>
       <p>
-        Javascript, Typescript, React, React Native, Vue, Ionic, Node.js, WebGL, SCSS, CSS, HTML. Experienced with Python working with Flask and Django.
+        Javascript, Typescript, React, React Native, Vue, Ionic, Node.js, WebGL, SCSS, CSS, HTML. Experienced with Python working in Flask and Django.
       </p>
     </div>
     <div>
@@ -47,6 +47,17 @@
             -
             <span v-if="role.dateDepart">
               {{ role.dateDepart }}
+
+              <!-- 
+                temporary hack to put in custom msg.
+                @todo: make this customizable? Is this worth the effort?
+              -->
+              <span
+                v-if="company.company === 'Clearing'"
+                class="text-red-700"
+              >
+                *  Business closed due to the SVB banking crisis.
+              </span>
             </span>
             <span v-else>
               current role
@@ -64,6 +75,7 @@
 
 <script>
 import gql from 'graphql-tag'
+import dayjs from 'dayjs'
 
 export default {
   name: 'ResumePage',
@@ -91,14 +103,17 @@ export default {
             dateDepart,
             notes
           } = curr;
+          const formattedDateStart = dateStart ? dayjs(dateStart).format('MMM YYYY') : undefined
+          const formattedDateDepart = dateDepart ? dayjs(dateDepart).format('MMM YYYY') : undefined;
+
           if (!companies.includes(company)) {
             const record = {
               company: company,
               roles: [
                 {
                   title,
-                  dateStart,
-                  dateDepart,
+                  dateStart: formattedDateStart,
+                  dateDepart: formattedDateDepart,
                   notes
                 }
               ]
@@ -109,8 +124,8 @@ export default {
             const job = acc.find(el => el.company === company)
             job.roles.push({
               title,
-              dateStart,
-              dateDepart,
+              dateStart: formattedDateStart,
+              dateDepart: formattedDateDepart,
               notes
             })
           }
