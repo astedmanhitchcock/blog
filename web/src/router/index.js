@@ -13,7 +13,7 @@ const routes = [
   { path: '/tag/:tag', component: PostsByTag},
   { path: '/author/:username', component: Author},
   { path: '/cv', component: Resume},
-  { path: '/styleguide', component: StyleGuide},
+  { path: '/styleguide', component: StyleGuide}
 ];
   
 const router = VueRouter.createRouter({
